@@ -59,6 +59,7 @@ def game(players, dealer, deck):
         dealer.draw(deck)
 
     winners = []
+    pushes = []
 
     for player in players:
         if dealer.score > 21:
@@ -69,9 +70,10 @@ def game(players, dealer, deck):
                 winners.append(player)
             elif 21 >= player.score == dealer.score:
                 print(f'{player.name}: You tied with the dealer. Result is a push.')
+                pushes.append(player)
             
-            if len(winners) == 0:
-                winners.append(dealer)
+    if len(winners) == 0 and len(pushes) == 0:
+        winners.append(dealer)
             
     return winners
 
@@ -122,6 +124,8 @@ def main():
 
         if dealer in winners:
             print('Sorry. The dealer won this round!\n')
+        elif len(winners) == 0:
+            print('No winners today! All players either lost or tied with dealer')
         else:
             print(f'Congratulations! The following players beat the dealer: {[winner.name for winner in winners]}\n')
             

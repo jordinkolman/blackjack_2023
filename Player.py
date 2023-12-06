@@ -44,7 +44,10 @@ class Player:
             rank = None
             while rank not in [1, 11]:
                 if self.name == 'Dealer':
-                    rank = choice([1, 11])
+                    if self.score <= 10:
+                        rank = 11
+                    else:
+                        rank = 1
                 else:
                     rank = int(input(f'Your current score is {self.score}. Would you like a 1, or an 11 for this Ace?: '))
         else:
