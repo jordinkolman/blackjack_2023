@@ -1,5 +1,8 @@
 from Deck import Deck
 
+def card_string(card):
+            return f'{card.rank}{card.suit}'
+
 class Player:
     def __init__(self, name):
         self.name = name
@@ -7,9 +10,7 @@ class Player:
         self.score = 0
         
     def __str__(self):
-        def card_string(card):
-            return f'{card.rank}{card.suit}'
-        return f'Player: {self.name}  Score: {self.score}  Hand: {[card_string(card) for card in self.hand]}'
+        return f'Player: {self.name}  Face Up: {[card_string(card) for card in self.hand[1:]]}'
     
     @property
     def hand(self):
@@ -38,6 +39,12 @@ class Player:
     def draw(self, deck):
         self.hand.append(deck.draw())
         return self.hand
+    
+    def reset_hand(self):
+        self.hand = []
+        
+    def show_hand(self):
+        return [card_string(card) for card in self.hand]
     
 
 if __name__ == '__main__':
