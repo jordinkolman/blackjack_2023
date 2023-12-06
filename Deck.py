@@ -8,7 +8,7 @@ Card = collections.namedtuple("Card", ["rank", "suit"])
 class Deck:
     # generator to create a rank list, and a list of suits
     ranks = [str(n) for n in range(2, 11)] + list("JQKA")
-    suits = "spades diamonds clubs hearts".split()
+    suits = "♠ ♥ ♣ ♦".split()
 
     def __init__(self):
         # combine each rank with each suit for a total of 52 combinations
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     print(deck)
     print()
     print()
-    drawn = deck.draw(2)
+    drawn = deck.draw()
     print(drawn)
     print(drawn in deck)
     deck = Deck()

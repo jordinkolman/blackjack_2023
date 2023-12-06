@@ -8,7 +8,7 @@ class Player:
         
     def __str__(self):
         def card_string(card):
-            return f'{card.rank} of {card.suit}'
+            return f'{card.rank}{card.suit}'
         return f'Player: {self.name}  Score: {self.score}  Hand: {[card_string(card) for card in self.hand]}'
     
     @property
