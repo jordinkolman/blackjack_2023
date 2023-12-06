@@ -50,8 +50,6 @@ class Deck:
         for _ in range(num):
             drawn += self._cards[0]
             del self._cards[0]
-            print(self._cards)
-            print()
         return drawn
 
     # resets deck to a new 52 card ordered deck
