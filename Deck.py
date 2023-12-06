@@ -44,13 +44,12 @@ class Deck:
         self._cards = new_order
         return self._cards
 
-    # returns the top (num) cards and removes them from the deck
-    def draw(self, num):
-        drawn = []
-        for _ in range(num):
-            drawn += self._cards[0]
-            del self._cards[0]
-        return drawn
+    # returns the top card and removes them from the deck
+    def draw(self):
+        card = self._cards[0]
+        self._cards = self._cards[1:]
+        return card
+
 
     # resets deck to a new 52 card ordered deck
     def reset(self):

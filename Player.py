@@ -7,7 +7,9 @@ class Player:
         self.score = 0
         
     def __str__(self):
-        return f'Player: {self.name}  Score: {self.score}  Hand: {self.hand}'
+        def card_string(card):
+            return f'{card.rank} of {card.suit}'
+        return f'Player: {self.name}  Score: {self.score}  Hand: {[card_string(card) for card in self.hand]}'
     
     @property
     def hand(self):
@@ -34,7 +36,7 @@ class Player:
         self._score = score
         
     def draw(self, deck):
-        self.hand += deck.draw(1)
+        self.hand.append(deck.draw())
         return self.hand
     
 
@@ -46,6 +48,7 @@ if __name__ == '__main__':
     print(f'Hand: {player1.hand}')
     deck1 = Deck()
     player1.draw(deck1)
+    print(deck1)
     print(f'Hand: {player1.hand}')
     print(player1.score)
     player1.score = 10
