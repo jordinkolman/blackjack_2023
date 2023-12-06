@@ -1,7 +1,6 @@
 from Deck import Deck
 from Player import Player
 import os
-from random import choice
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -9,35 +8,23 @@ def clear():
 def print_ui(players, dealer, current_player=None):
     clear()
     print('Blackjack ♠ ♥ ♣ ♦\n\n')
+    
+    for player in players:
+        print(player, end='\n\n')
+    print(dealer, end='\n\n')
+    
     if current_player:
         print(f'Current Player: {current_player.name}\n')
         print(f'Your Hand: {current_player.show_hand()}  Your Score: {current_player.score}\n\n')
-    for player in players:
-        print(player, end='\n\n')
-    print(dealer)
 
-def calculate_score(player):
-    score = 0
-    for card in player.hand:
-        if card.rank in ['J', 'Q', 'K']:
-            score += 10
-        elif card.rank == 'A':
-            rank = None
-            while rank not in [1, 11]:
-                if player.name == 'Dealer':
-                    rank = choice(1, 11)
-                else:
-                    rank = int(input(f'Your current score is {player.score}. Would you like a 1, or an 11 for this Ace?: '))
-            score += rank
-        else:
-            score += int(card.rank)
-            
-    return score
+    
 
 def game(players, dealer, deck):
     deck.shuffle()
     deck.shuffle()
     deck.shuffle()
+
+    print_ui(players, dealer, players[0])
 
     for _ in range(2):
         for player in players:
@@ -45,14 +32,12 @@ def game(players, dealer, deck):
         dealer.draw(deck)
     
     for player in players:
-        player.score = calculate_score(player)
         print_ui(players, dealer, player)
         
         hit_choice = input('Would you like to hit, or stay?: ')
         while player.score < 21 and hit_choice != 'stay':
             while hit_choice != 'stay':
                 player.draw(deck)
-                player.score = calculate_score(player)
                 print_ui(players, dealer, player)
                 if player.score >= 21:
                     break
@@ -63,14 +48,15 @@ def game(players, dealer, deck):
             cont = input('press enter to continue')
             continue
         
+        clear()
+        print('Blackjack ♠ ♥ ♣ ♦\n\n')
+        print(f'Current Player: {player.name}')
         print(f'Final Score: {player.score}')
         print(f'Hand: {player.show_hand()}')
         cont = input('press enter to continue')
     
-    dealer.score = calculate_score(dealer)
     while dealer.score <= 16:
         dealer.draw(deck)
-        dealer.score = calculate_score(dealer)
 
     winners = []
 
@@ -130,16 +116,20 @@ def main():
         print_ui(players, dealer)
 
         winners = game(players, dealer, deck)
+        
+        clear()
+        print('Blackjack ♠ ♥ ♣ ♦\n\n')
 
         if dealer in winners:
-            print('Sorry. The dealer won this round!')
+            print('Sorry. The dealer won this round!\n')
         else:
-            print(f'Congratulations! The following players beat the dealer: {[winner.name for winner in winners]}')
+            print(f'Congratulations! The following players beat the dealer: {[winner.name for winner in winners]}\n')
             
+        
         print(f'Final Scores: ')
         for player in players:
             print(f'{player.name}: {player.score} Hand: {player.show_hand()}')
-        print(f'Dealer: {dealer.score} Hand: {dealer.show_hand()}')
+        print(f'Dealer: {dealer.score} Hand: {dealer.show_hand()}\n')
 
         while True:
             play_again = input('Play Again? y/n: ').lower()

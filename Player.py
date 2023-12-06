@@ -1,7 +1,8 @@
 from Deck import Deck
+from random import choice
 
 def card_string(card):
-            return f'{card.rank}{card.suit}'
+    return f'{card.rank}{card.suit}'
 
 class Player:
     def __init__(self, name):
@@ -36,8 +37,26 @@ class Player:
     def score(self, score):
         self._score = score
         
+    def calc_score(self, card):
+        if card.rank in ['J', 'Q', 'K']:
+            rank = 10
+        elif card.rank == 'A':
+            rank = None
+            while rank not in [1, 11]:
+                if self.name == 'Dealer':
+                    rank = choice([1, 11])
+                else:
+                    rank = int(input(f'Your current score is {self.score}. Would you like a 1, or an 11 for this Ace?: '))
+        else:
+            rank = int(card.rank)
+            
+        return rank
+                
     def draw(self, deck):
-        self.hand.append(deck.draw())
+        card = deck.draw()
+        self.score += self.calc_score(card)
+        self.hand.append(card)
+        
         return self.hand
     
     def reset_hand(self):
